@@ -11,23 +11,10 @@
   (fn [req]
     (apply handler req args)))
 
-(defn symbols [pattern]
-  (filter #(and
-             (symbol? %)
-             (not (#{'& '_} %))
-             (not (resolve %)))
-          (flatten pattern)))
-
-(defn parse-match [[pattern action]]
-  [pattern
-   `(delegate ~action ~@(symbols pattern))])
-
 (defmacro app [& routes]
   `(fn [req#]
      ((match (pattern req#)
-        ~@(mapcat
-            parse-match
-            (partition 2 routes)))
+        ~@routes)
         req#)))
 
 (comment
@@ -37,7 +24,7 @@
     (app
       [:get] handler1
       [_ "form"] handler2
-      [:get "timeline" user] handler3))
+      [:get "timeline" user] (delegate handler3 user)))
 
   (the-app {:request-method :get, :uri "/timeline/bob"})
   => "bob")

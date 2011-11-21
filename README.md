@@ -9,8 +9,6 @@ Baard = Dutch for beard
 
 The source is really only a screen full, so check that out, but to give you an idea:
 
-    (defn handler [req binding …] response)
-
     (app
       [request-method url-segment …] handler
       …)
