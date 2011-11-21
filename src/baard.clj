@@ -14,7 +14,7 @@
 (defn symbols [pattern]
   (filter #(and
              (symbol? %)
-             (not= '& %)
+             (not (#{'& '_} %))
              (not (resolve %)))
           (flatten pattern)))
 
@@ -30,3 +30,14 @@
             (partition 2 routes)))
         req#)))
 
+(comment
+  (defn handler3 [req user] user)
+
+  (def the-app
+    (app
+      [:get] handler1
+      [_ "form"] handler2
+      [:get "timeline" user] handler3))
+
+  (the-app {:request-method :get, :uri "/timeline/bob"})
+  => "bob")
