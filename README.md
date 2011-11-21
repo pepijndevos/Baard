@@ -2,7 +2,7 @@
 
 Ring router based on core.match, similar to Moustache.
 
-Moustache = French for mustache
+Moustache = French for mustache  
 Baard = Dutch for beard
 
 ## Usage
